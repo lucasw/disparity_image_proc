@@ -8,7 +8,6 @@ Checkout the launch file for the actual input/output topic names, here is an exa
 
 ```
 roslaunch disparity_image_proc disparity_to_depth.launch \
-  depth_image
   left_cam_info:=/tesse/left_cam/camera_info \
   right_cam_info:=/tesse/right_cam/camera_info \
   disparity:=/stereo_gray/disparity
