@@ -1,6 +1,6 @@
 # disparity_image_proc
 
-Contains package that allows converting ROS disparity images to depth images.
+Package to convert ROS [disparity images](http://docs.ros.org/kinetic/api/stereo_msgs/html/msg/DisparityImage.html) to [depth images](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html).
 
 ### Usage
 
