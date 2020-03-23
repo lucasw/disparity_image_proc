@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-  <arg name="depth_image"      default="/rigth/depth_image"/>
+  <arg name="depth_img"      default="/rigth/depth_image"/>
   <arg name="left_cam_info"    default="/left/camera_info"/>
   <arg name="right_cam_info"   default="/right/camera_info"/>
   <arg name="disparity"        default="/disparity"/>
