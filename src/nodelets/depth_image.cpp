@@ -103,7 +103,7 @@ protected:
 void DepthImageNodelet::onInit() {
   ros::NodeHandle& nh = getNodeHandle();
   ros::NodeHandle& private_nh = getPrivateNodeHandle();
-  it_.reset(new image_transport::ImageTransport(nh));
+  it_.reset(new image_transport::ImageTransport(private_nh));
 
   // Synchronize inputs. Topic subscriptions happen on demand in the connection
   // callback. Optionally do approximate synchronization.
