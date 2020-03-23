@@ -3,7 +3,9 @@
   <version>1.12.5</version>
   <description>Conversion of disparity to depth images.</description>
   <author>Stefan Kohlbrecher</author>
+  <author>Antoni Rosinol</author>
   <maintainer email="kohlbrecher@sim.tu-darmstadt.de">Stefan Kohlbrecher</maintainer>
+  <maintainer email="arosinol@mit.edu">Antoni Rosinol</maintainer>
   <license>BSD</license>
   <url>http://www.ros.org/wiki/disparity_image_proc</url>
 
@@ -14,7 +16,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <test_depend>rostest</test_depend>
-  
+
   <build_depend>cv_bridge</build_depend>
   <build_depend>dynamic_reconfigure</build_depend>
   <build_depend>image_geometry</build_depend>
