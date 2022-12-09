@@ -167,36 +167,36 @@ void DepthImageNodelet::imageCb(const CameraInfoConstPtr& l_info_msg,
   // Update the camera model
   model_.fromCameraInfo(l_info_msg, r_info_msg);
 
-  // Calculate point cloud
+  // TODO(lucasw) check format of disp_msg
+
   const Image& dimage = disp_msg->image;
-  const cv::Mat_<float> dmat(dimage.height, dimage.width,
-                             (float*)&dimage.data[0], dimage.step);
-  model_.projectDisparityImageTo3d(dmat, points_mat_, true);
-  cv::Mat_<cv::Vec3f> mat = points_mat_;
+  const size_t width = dimage.width;
+  const size_t height = dimage.height;
+  const size_t step = dimage.step;
+
+  // TODO(lucasw) could also reinterpret_cast like below
+  const cv::Mat_<float> dmat(height, width, (float*)&dimage.data[0], step);
 
   sensor_msgs::ImagePtr depth_image(new sensor_msgs::Image());
 
   depth_image->header = disp_msg->header;
-  depth_image->width = dimage.width;
-  depth_image->height = dimage.height;
+  depth_image->width = width;
+  depth_image->height = height;
   depth_image->encoding = sensor_msgs::image_encodings::TYPE_32FC1;
-  depth_image->step = sizeof(float) * depth_image->width;
+  depth_image->step = step;
 
-  size_t num_pixels = depth_image->width * depth_image->height;
+  depth_image->data.resize(height * step);
 
-  depth_image->data.resize(num_pixels * sizeof(float));
+  float* depth_data = reinterpret_cast<float*>(&depth_image->data[0]);
 
-  std::vector<uint8_t>& data = depth_image->data;
-
-  float nan = std::numeric_limits<float>::quiet_NaN();
-
-  for (size_t i = 0; i < num_pixels; ++i) {
-    // data[i*sizeof(float)] =
-    if (mat(i)[2] < 1000.0) {
-      memcpy(&data[i * sizeof(float)], &mat(i)[2], sizeof(float));
-    } else {
-      memcpy(&data[i * sizeof(float)], &nan,
-             sizeof(float));  // data[i*sizeof(float)]
+  for (size_t yi = 0; yi < height; ++yi) {
+    for (size_t xi = 0; xi < width; ++xi) {
+      const size_t ind = yi * step / sizeof(float) + xi;
+      // TODO(lucasw) okay if depth value is 0 or !isfinite?
+      const float depth = model_.getZ(dmat.at<float>(yi, xi));
+      // TODO(lucasw) is this needed?  Downstream nodes do this check before using depth
+      // if std::isfinite(depth)
+      depth_data[ind] = depth;
     }
   }
 
