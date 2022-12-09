@@ -116,12 +116,14 @@ void DepthImageNodelet::onInit() {
                                                 sub_l_info_, sub_r_info_,
                                                 sub_disparity_));
     approximate_sync_->registerCallback(
-        boost::bind(&DepthImageNodelet::imageCb, this, _1, _2, _3));
+        boost::bind(&DepthImageNodelet::imageCb, this, boost::placeholders::_1,
+                    boost::placeholders::_2, boost::placeholders::_3));
   } else {
     exact_sync_.reset(new ExactSync(ExactPolicy(queue_size), sub_l_info_,
                                     sub_r_info_, sub_disparity_));
     exact_sync_->registerCallback(
-        boost::bind(&DepthImageNodelet::imageCb, this, _1, _2, _3));
+        boost::bind(&DepthImageNodelet::imageCb, this, boost::placeholders::_1,
+                    boost::placeholders::_2, boost::placeholders::_3));
   }
 
   // Monitor whether anyone is subscribed to the output
