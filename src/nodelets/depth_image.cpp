@@ -206,5 +206,5 @@ void DepthImageNodelet::imageCb(const CameraInfoConstPtr& l_info_msg,
 }  // namespace stereo_image_proc
 
 // Register nodelet
-#include <pluginlib/class_list_macros.h>
+#include <pluginlib/class_list_macros.hpp>
 PLUGINLIB_EXPORT_CLASS(stereo_image_proc::DepthImageNodelet, nodelet::Nodelet)
